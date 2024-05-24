@@ -45,6 +45,14 @@ public class Prenotazione {
 		this.stanza = stanza;
 	}
 
+	public Prenotazione(Long id, String codice, LocalDate dataIn, LocalDate dataOut, Boolean annullata) {
+		this.id = id;
+		this.codice = codice;
+		this.dataIn = dataIn;
+		this.dataOut = dataOut;
+		this.annullata = annullata;
+	}
+
 	public Long getId() {
 		return id;
 	}

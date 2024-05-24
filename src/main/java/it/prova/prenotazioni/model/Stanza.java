@@ -43,6 +43,14 @@ public class Stanza {
 		this.prezzoNotte = prezzoNotte;
 	}
 
+	public Stanza(Long id, Integer numero, Tipo tipo, Float prezzoNotte, List<Prenotazione> prenotazioni) {
+		this.id = id;
+		this.numero = numero;
+		this.tipo = tipo;
+		this.prezzoNotte = prezzoNotte;
+		this.prenotazioni = prenotazioni;
+	}
+
 	public Long getId() {
 		return id;
 	}
