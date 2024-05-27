@@ -36,11 +36,8 @@ public class StanzaController {
 
 		if (stanza == null) {
 			throw new StanzaNotFoundException("Stanza not found with id:" + id);
-
 		}
-
 		return StanzaDTO.buildStanzaDTOFromModel(stanza, true);
-
 	}
 
 	@PostMapping
@@ -48,5 +45,11 @@ public class StanzaController {
 	public StanzaDTO insertNew(@Valid @RequestBody StanzaDTO input) {
 		Stanza nuovaStanza = stanzaService.inserisciNuovo(input.buildStanzaModel(false));
 		return StanzaDTO.buildStanzaDTOFromModel(nuovaStanza, false);
+	}
+
+	@PostMapping("/search")
+	public List<StanzaDTO> search(@RequestBody StanzaDTO example) {
+		return StanzaDTO.buildStanzaDTOListFromModelList(stanzaService.findByExample(example.buildStanzaModel(false)),
+				false);
 	}
 }

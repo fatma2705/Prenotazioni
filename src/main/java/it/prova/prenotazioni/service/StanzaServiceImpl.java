@@ -39,8 +39,7 @@ public class StanzaServiceImpl implements StanzaService {
 
 	@Override
 	public List<Stanza> findByExample(Stanza example) {
-		// TODO Auto-generated method stub
-		return null;
+		return stanzaRepository.findByExample(example);
 	}
 
 	@Override
