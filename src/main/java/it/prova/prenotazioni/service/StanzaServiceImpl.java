@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.prenotazioni.model.Stanza;
 import it.prova.prenotazioni.repository.stanza.StanzaRepository;
+import it.prova.prenotazioni.web.api.exception.EmptyDatabase;
 import it.prova.prenotazioni.web.api.exception.IdNotNullForInsertionException;
+import it.prova.prenotazioni.web.api.exception.StanzaNotFoundException;
 
 @Service
 @Transactional
@@ -24,7 +26,11 @@ public class StanzaServiceImpl implements StanzaService {
 
 	@Override
 	public List<Stanza> listAllEager() {
-		return (List<Stanza>) stanzaRepository.listAllEager();
+		List<Stanza> stanze = stanzaRepository.listAllEager();
+		if (stanze == null) {
+			throw new  EmptyDatabase("Database vuoto ..!");
+		}
+		return stanze;
 	}
 
 	@Override
@@ -34,7 +40,11 @@ public class StanzaServiceImpl implements StanzaService {
 
 	@Override
 	public Stanza findByIdEager(Long id) {
-		return stanzaRepository.findByIdEager(id);
+		Stanza stanza = stanzaRepository.findByIdEager(id);
+		if (stanza == null) {
+			throw new StanzaNotFoundException("Stanza not found with id:" + id);
+		}
+		return stanza;
 	}
 
 	@Override
@@ -51,7 +61,11 @@ public class StanzaServiceImpl implements StanzaService {
 
 	@Override
 	public Stanza update(Stanza input) {
-		return null;
+		Stanza stanza = stanzaRepository.findByIdEager(input.getId());
+		if (stanza == null) {
+			throw new StanzaNotFoundException("Stanza not found with id:" + input.getId());
+		}
+		return stanzaRepository.save(input);
 	}
 
 	@Override

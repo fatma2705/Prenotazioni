@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -51,5 +52,13 @@ public class StanzaController {
 	public List<StanzaDTO> search(@RequestBody StanzaDTO example) {
 		return StanzaDTO.buildStanzaDTOListFromModelList(stanzaService.findByExample(example.buildStanzaModel(false)),
 				false);
+	}
+	
+	@PutMapping("/{id}")
+	public StanzaDTO aggiorna(@Valid @RequestBody StanzaDTO input ,@PathVariable(required = true)Long id) {
+		
+		Stanza aggiornato = stanzaService.update(input.buildStanzaModel(false));
+		return StanzaDTO.buildStanzaDTOFromModel(aggiornato, false);
+		
 	}
 }
