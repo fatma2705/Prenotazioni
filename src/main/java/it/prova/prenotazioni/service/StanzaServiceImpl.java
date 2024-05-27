@@ -11,6 +11,7 @@ import it.prova.prenotazioni.repository.stanza.StanzaRepository;
 import it.prova.prenotazioni.web.api.exception.EmptyDatabase;
 import it.prova.prenotazioni.web.api.exception.IdNotNullForInsertionException;
 import it.prova.prenotazioni.web.api.exception.StanzaNotFoundException;
+import it.prova.prenotazioni.web.api.exception.StillHasPrenotazioniLinkedException;
 
 @Service
 @Transactional
@@ -28,7 +29,7 @@ public class StanzaServiceImpl implements StanzaService {
 	public List<Stanza> listAllEager() {
 		List<Stanza> stanze = stanzaRepository.listAllEager();
 		if (stanze == null) {
-			throw new  EmptyDatabase("Database vuoto ..!");
+			throw new EmptyDatabase("Database vuoto ..!");
 		}
 		return stanze;
 	}
@@ -70,8 +71,15 @@ public class StanzaServiceImpl implements StanzaService {
 
 	@Override
 	public void rimuovi(Long id) {
-		// TODO Auto-generated method stub
-
+		Stanza stanza = stanzaRepository.findByIdEager(id);
+		if (stanza == null) {
+			throw new StanzaNotFoundException("Stanza not found with id:" + id);
+		}
+		if (stanza.getPrenotazioni() != null && !stanza.getPrenotazioni().isEmpty()) {
+			throw new StillHasPrenotazioniLinkedException(
+					"Cannot delete, there are still prenotazioni linked to this stanza.");
+		}
+		stanzaRepository.deleteById(id);
 	}
 
 }

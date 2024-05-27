@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,12 +54,18 @@ public class StanzaController {
 		return StanzaDTO.buildStanzaDTOListFromModelList(stanzaService.findByExample(example.buildStanzaModel(false)),
 				false);
 	}
-	
+
 	@PutMapping("/{id}")
-	public StanzaDTO aggiorna(@Valid @RequestBody StanzaDTO input ,@PathVariable(required = true)Long id) {
-		
+	public StanzaDTO aggiorna(@Valid @RequestBody StanzaDTO input, @PathVariable(required = true) Long id) {
+
 		Stanza aggiornato = stanzaService.update(input.buildStanzaModel(false));
 		return StanzaDTO.buildStanzaDTOFromModel(aggiornato, false);
-		
+
+	}
+
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable(required = true) Long id) {
+		stanzaService.rimuovi(id);
 	}
 }
