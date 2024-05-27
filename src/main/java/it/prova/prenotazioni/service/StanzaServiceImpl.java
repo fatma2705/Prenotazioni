@@ -24,8 +24,7 @@ public class StanzaServiceImpl implements StanzaService {
 
 	@Override
 	public List<Stanza> listAllEager() {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Stanza>) stanzaRepository.listAllEager() ;
 	}
 
 	@Override

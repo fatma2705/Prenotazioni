@@ -25,7 +25,7 @@ public class StanzaController {
 
 	@GetMapping
 	public List<StanzaDTO> listAll() {
-		return StanzaDTO.buildStanzaDTOListFromModelList(stanzaService.listAll(), true);
+		return StanzaDTO.buildStanzaDTOListFromModelList(stanzaService.listAllEager(), true);
 	}
 
 	@PostMapping
