@@ -24,19 +24,17 @@ public class StanzaServiceImpl implements StanzaService {
 
 	@Override
 	public List<Stanza> listAllEager() {
-		return (List<Stanza>) stanzaRepository.listAllEager() ;
+		return (List<Stanza>) stanzaRepository.listAllEager();
 	}
 
 	@Override
 	public Stanza findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return stanzaRepository.findById(id).orElse(null);
 	}
 
 	@Override
 	public Stanza findByIdEager(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return stanzaRepository.findByIdEager(id);
 	}
 
 	@Override
