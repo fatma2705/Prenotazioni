@@ -12,7 +12,7 @@ public interface StanzaRepository extends CrudRepository<Stanza, Long>, CustomSt
 	@Query(" select distinct s from Stanza s left join fetch s.prenotazioni ")
 	public List<Stanza> listAllEager();
 
-	@Query(" select s from Stanza s left join fetch s.id=?1")
-	public Stanza findByTdEager(Long id);
+	@Query(" select s from Stanza s where s.id=?1")
+	public Stanza findByIdEager(Long id);
 
 }

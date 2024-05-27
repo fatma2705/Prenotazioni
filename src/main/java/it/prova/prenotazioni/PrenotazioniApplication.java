@@ -1,13 +1,19 @@
 package it.prova.prenotazioni;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PrenotazioniApplication {
+public class PrenotazioniApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PrenotazioniApplication.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+
 	}
 
 }

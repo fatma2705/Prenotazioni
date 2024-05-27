@@ -29,7 +29,7 @@ public class Stanza {
 	private Tipo tipo;
 	@Column(name = "prezzo_notte")
 	private Float prezzoNotte;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "airbus")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "stanza")
 	private List<Prenotazione> prenotazioni = new ArrayList<>();
 
 	public Stanza() {
