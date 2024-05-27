@@ -1,12 +1,14 @@
 package it.prova.prenotazioni.dto.prenotazione;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import it.prova.prenotazioni.dto.stanza.StanzaDTO;
 import it.prova.prenotazioni.model.Prenotazione;
-import it.prova.prenotazioni.model.Stanza;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -23,7 +25,7 @@ public class PrenotazioneDTO {
 	@NotNull(message = "{annullata.notnull}")
 	private Boolean annullata;
 	@JsonIgnoreProperties(value = { "prenotazioni" })
-	private Stanza stanza;
+	private StanzaDTO stanza;
 
 	public Long getId() {
 		return id;
@@ -65,24 +67,45 @@ public class PrenotazioneDTO {
 		this.annullata = annullata;
 	}
 
-	public Stanza getStanza() {
+	public StanzaDTO getStanza() {
 		return stanza;
 	}
 
-	public void setStanza(Stanza stanza) {
+	public void setStanza(StanzaDTO stanza) {
 		this.stanza = stanza;
 	}
-	
+
 	public Prenotazione buildPrenotazioneModel(boolean includeStanza) {
-		Prenotazione result = new Prenotazione(this.id,this.codice,this.dataIn,this.dataOut,this.annullata);
+		Prenotazione result = new Prenotazione(this.id, this.codice, this.dataIn, this.dataOut, this.annullata);
 		if (includeStanza) {
 			result.setStanza(this.stanza.buildStanzaModel(false));
 		}
-			return result;
+		return result;
 	}
-	
-	public static PrenotazioneDTO buildPrenotazioneDTOFromModel(Prenotazione model , boolean includeStanza) {
-		
+
+	public static PrenotazioneDTO buildPrenotazioneDTOFromModel(Prenotazione model, boolean includeStanza) {
+
+		PrenotazioneDTOBuilder builder = new PrenotazioneDTOBuilder().id(model.getId()).codice(model.getCodice())
+				.dataIn(model.getDataIn()).dataOut(model.getDataOut()).annullata(model.getAnnullata());
+		if (includeStanza) {
+			builder.stanza(StanzaDTO.buildStanzaDTOFromModel(model.getStanza(), false));
+		}
+		return builder.build();
+	}
+
+	public static List<Prenotazione> buildPrenotazioneModelListFromDTOList(List<PrenotazioneDTO> dtos,
+			boolean includeStanza) {
+
+		return dtos.stream().map(item -> {
+			return item.buildPrenotazioneModel(includeStanza);
+		}).collect(Collectors.toList());
+	}
+
+	public static List<PrenotazioneDTO> buildPrenotazioneDTOListFromModelList(List<Prenotazione> models,
+			boolean includeStanza) {
+		return models.stream().map(item -> {
+			return PrenotazioneDTO.buildPrenotazioneDTOFromModel(item, includeStanza);
+		}).collect(Collectors.toList());
 	}
 
 }
