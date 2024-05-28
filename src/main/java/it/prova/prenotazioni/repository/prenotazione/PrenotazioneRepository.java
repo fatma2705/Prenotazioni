@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import it.prova.prenotazioni.model.Prenotazione;
 
-public interface PrenotazioneRepository extends CrudRepository<Prenotazione, Long> {
+public interface PrenotazioneRepository extends CrudRepository<Prenotazione, Long> , CustomPrenotazioneRepository{
 
 	@Query(" select distinct p from Prenotazione p left join fetch p.stanza")
 	public List<Prenotazione> listAllEager();

@@ -9,20 +9,17 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import it.prova.prenotazioni.dto.stanza.StanzaDTO;
 import it.prova.prenotazioni.model.Prenotazione;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PrenotazioneDTO {
 
 	private Long id;
-	@NotBlank(message = "{codice.notblank}")
 	private String codice;
 	@NotNull(message = "{dataIn.notnull")
 	private LocalDate dataIn;
 	@NotNull(message = "{dataOut.notnull}")
 	private LocalDate dataOut;
-	@NotNull(message = "{annullata.notnull}")
 	private Boolean annullata;
 	@JsonIgnoreProperties(value = { "prenotazioni" })
 	private StanzaDTO stanza;
@@ -76,7 +73,7 @@ public class PrenotazioneDTO {
 	}
 
 	public Prenotazione buildPrenotazioneModel(boolean includeStanza) {
-		Prenotazione result = new Prenotazione(this.id, this.codice, this.dataIn, this.dataOut, this.annullata);
+		Prenotazione result = new Prenotazione(this.id, this.dataIn, this.dataOut);
 		if (includeStanza) {
 			result.setStanza(this.stanza.buildStanzaModel(false));
 		}

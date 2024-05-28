@@ -1,8 +1,10 @@
 package it.prova.prenotazioni.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import it.prova.prenotazioni.model.Stanza;
+import it.prova.prenotazioni.model.Tipo;
 
 public interface StanzaService {
 
@@ -21,5 +23,7 @@ public interface StanzaService {
 	public Stanza update(Stanza input);
 
 	public void rimuovi(Long id);
+	
+	List<Stanza> stanzeDisponibili(Tipo tipo, LocalDate dataIn, LocalDate dataOut);
 
 }

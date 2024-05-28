@@ -1,5 +1,6 @@
 package it.prova.prenotazioni.web.api;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.prova.prenotazioni.dto.stanza.StanzaDTO;
 import it.prova.prenotazioni.model.Stanza;
+import it.prova.prenotazioni.model.Tipo;
 import it.prova.prenotazioni.service.StanzaService;
 import it.prova.prenotazioni.web.api.exception.StanzaNotFoundException;
 import jakarta.validation.Valid;
@@ -31,6 +34,13 @@ public class StanzaController {
 	public List<StanzaDTO> listAll() {
 		return StanzaDTO.buildStanzaDTOListFromModelList(stanzaService.listAllEager(), true);
 	}
+
+	@GetMapping("/disponibili")
+	public List<StanzaDTO> listAllStanzeDisponibili(@RequestParam String tipo, @RequestParam LocalDate dataIn, @RequestParam LocalDate dataOut) {
+		Tipo myTipo = Tipo.valueOf(tipo);
+	    return StanzaDTO.buildStanzaDTOListFromModelList(stanzaService.stanzeDisponibili(myTipo, dataIn, dataOut), true);
+	}
+
 
 	@GetMapping("/{id}")
 	public StanzaDTO findById(@PathVariable(value = "id", required = true) Long id) {

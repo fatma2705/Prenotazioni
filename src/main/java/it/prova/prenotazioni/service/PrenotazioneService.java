@@ -1,8 +1,10 @@
 package it.prova.prenotazioni.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import it.prova.prenotazioni.model.Prenotazione;
+import it.prova.prenotazioni.model.Tipo;
 
 public interface PrenotazioneService {
 
@@ -16,7 +18,7 @@ public interface PrenotazioneService {
 
 	public List<Prenotazione> findByExample(Prenotazione example);
 
-	public Prenotazione inserisciNuovo(Prenotazione input);
+	public Prenotazione prenotaStanza(Tipo tipo , LocalDate dataIn , LocalDate dataOut);
 
 	public Prenotazione update(Prenotazione input);
 

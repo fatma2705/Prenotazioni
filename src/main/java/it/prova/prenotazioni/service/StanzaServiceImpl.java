@@ -1,5 +1,6 @@
 package it.prova.prenotazioni.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.prenotazioni.model.Stanza;
+import it.prova.prenotazioni.model.Tipo;
 import it.prova.prenotazioni.repository.stanza.StanzaRepository;
 import it.prova.prenotazioni.web.api.exception.EmptyDatabase;
 import it.prova.prenotazioni.web.api.exception.IdNotNullForInsertionException;
+import it.prova.prenotazioni.web.api.exception.ListStanzeDisponibiliNull;
 import it.prova.prenotazioni.web.api.exception.StanzaNotFoundException;
 import it.prova.prenotazioni.web.api.exception.StillHasPrenotazioniLinkedException;
 
@@ -80,6 +83,15 @@ public class StanzaServiceImpl implements StanzaService {
 					"Cannot delete, there are still prenotazioni linked to this stanza.");
 		}
 		stanzaRepository.deleteById(id);
+	}
+
+	@Override
+	public List<Stanza> stanzeDisponibili(Tipo tipo , LocalDate dataIn, LocalDate dataOut) {
+		List<Stanza> stanze = stanzaRepository.stanzeDisponibili( tipo ,  dataIn, dataOut);
+		if (stanze == null) {
+			throw new ListStanzeDisponibiliNull("No available stanze found");
+		}
+		return stanze;
 	}
 
 }

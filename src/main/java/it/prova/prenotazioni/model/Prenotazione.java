@@ -1,6 +1,7 @@
 package it.prova.prenotazioni.model;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,13 +22,13 @@ public class Prenotazione {
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "codice")
-	private String codice;
+	private String codice = generateUniqueCode();
 	@Column(name = "data_in")
 	private LocalDate dataIn;
 	@Column(name = "data_out")
 	private LocalDate dataOut;
 	@Column(name = "annullata")
-	private Boolean annullata;
+	private Boolean annullata = false;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "stanza_id", nullable = false)
 	private Stanza stanza;
@@ -36,21 +37,23 @@ public class Prenotazione {
 
 	}
 
-	public Prenotazione(Long id, String codice, LocalDate dataIn, LocalDate dataOut, Boolean annullata, Stanza stanza) {
+	public Prenotazione(Long id, LocalDate dataIn, LocalDate dataOut, Stanza stanza) {
 		this.id = id;
-		this.codice = codice;
 		this.dataIn = dataIn;
 		this.dataOut = dataOut;
-		this.annullata = annullata;
 		this.stanza = stanza;
 	}
 
-	public Prenotazione(Long id, String codice, LocalDate dataIn, LocalDate dataOut, Boolean annullata) {
+	public Prenotazione(Long id, LocalDate dataIn, LocalDate dataOut) {
 		this.id = id;
-		this.codice = codice;
 		this.dataIn = dataIn;
 		this.dataOut = dataOut;
-		this.annullata = annullata;
+	}
+
+	public Prenotazione(LocalDate dataIn, LocalDate dataOut, Stanza stanza) {
+		this.dataIn = dataIn;
+		this.dataOut = dataOut;
+		this.stanza = stanza;
 	}
 
 	public Long getId() {
@@ -99,6 +102,11 @@ public class Prenotazione {
 
 	public void setStanza(Stanza stanza) {
 		this.stanza = stanza;
+	}
+
+	public static String generateUniqueCode() {
+		UUID uuid = UUID.randomUUID();
+		return uuid.toString().replace("-", "");
 	}
 
 }

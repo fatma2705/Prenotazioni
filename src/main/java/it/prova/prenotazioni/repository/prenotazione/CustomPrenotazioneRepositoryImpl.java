@@ -1,13 +1,20 @@
 package it.prova.prenotazioni.repository.prenotazione;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import it.prova.prenotazioni.dto.prenotazione.PrenotazioneDTO;
 import it.prova.prenotazioni.model.Prenotazione;
+import it.prova.prenotazioni.model.Stanza;
+import it.prova.prenotazioni.model.Tipo;
+import it.prova.prenotazioni.repository.stanza.StanzaRepository;
+import it.prova.prenotazioni.web.api.exception.ListStanzeDisponibiliNull;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -16,6 +23,9 @@ public class CustomPrenotazioneRepositoryImpl implements CustomPrenotazioneRepos
 
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	@Autowired
+	private StanzaRepository stanzaRepository;
 
 	@Override
 	public List<Prenotazione> findByExample(Prenotazione example) {
@@ -61,6 +71,16 @@ public class CustomPrenotazioneRepositoryImpl implements CustomPrenotazioneRepos
 
 		return typedQuery.getResultList();
 
+	}
+
+	@Override
+	public Prenotazione prenotaStanza(Tipo tipo, LocalDate dataIn, LocalDate dataOut) {
+		List<Stanza> stanzeDisponibili = stanzaRepository.stanzeDisponibili(tipo, dataIn, dataOut);
+		if (stanzeDisponibili == null || stanzeDisponibili.isEmpty()) {
+			throw new ListStanzeDisponibiliNull("No available stanze found");
+		}
+		Prenotazione prenotazione = new Prenotazione(dataIn,dataOut,stanzeDisponibili.get(0));
+		return prenotazione;
 	}
 
 }
