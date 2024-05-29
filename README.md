@@ -119,7 +119,7 @@ This project is a RESTful API built with Java and Spring Boot for managing rooms
   {
     "description": "string",
     "date": "string (yyyy-MM-dd)",
-    "roomId": "int"
+    "roomNumber": "String"
   }
   ```
 
@@ -146,7 +146,7 @@ This project is a RESTful API built with Java and Spring Boot for managing rooms
   Request Body:
   ```json
   {
-    "roomId": "int",
+    "roomNumber": "int",
     "checkIn": "string (yyyy-MM-dd)",
     "checkOut": "string (yyyy-MM-dd)"
   }
@@ -162,16 +162,16 @@ This project is a RESTful API built with Java and Spring Boot for managing rooms
 ### Room (Stanza)
 
 - `id` (Long): Unique identifier for the room
-- `type` (String): Type of the room (e.g., single, double, suite)
-- `number` (Int): Room number
-- `capacity` (Int): Room capacity
+- `type` (Enum): Type of the room (e.g., single, double, suite)
+- `number` (String): Room number
+- `price` (Float): Room capacity
 
-### Operation (Operazione)
+### Prenotazione (Prenotazione)
 
 - `id` (Long): Unique identifier for the operation
-- `description` (String): Description of the operation
-- `date` (String): Date of the operation (yyyy-MM-dd)
-- `roomId` (Long): ID of the associated room
+- `dateIn` (LocalDate): Date check in (yyyy-MM-dd)
+- `dateOut` (LocalDate): Date check out (yyyy-MM-dd)
+- `room` (Room): ID of the associated room
 
 ## Running Tests
 
