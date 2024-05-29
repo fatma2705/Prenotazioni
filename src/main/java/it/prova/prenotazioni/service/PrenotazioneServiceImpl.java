@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import it.prova.prenotazioni.model.Prenotazione;
 import it.prova.prenotazioni.repository.prenotazione.PrenotazioneRepository;
 import it.prova.prenotazioni.web.api.exception.EmptyDatabase;
+import it.prova.prenotazioni.web.api.exception.PrenotazioneNotFoundException;
 
 @Service
 @Transactional
@@ -20,7 +21,7 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
 
 	@Override
 	public List<Prenotazione> listAll() {
-		return null;
+		return (List<Prenotazione>) prenotazioneRepository.findAll();
 	}
 
 	@Override
@@ -33,14 +34,16 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
 
 	@Override
 	public Prenotazione findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return prenotazioneRepository.findById(id).orElse(null);
 	}
 
 	@Override
 	public Prenotazione findByIdEager(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Prenotazione prenotazione = prenotazioneRepository.findByIdEager(id);
+		if (prenotazione == null) {
+			throw new PrenotazioneNotFoundException("Prenotazione not found with id:" + id);
+		}
+		return prenotazione;
 	}
 
 	@Override

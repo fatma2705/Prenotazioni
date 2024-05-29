@@ -20,7 +20,6 @@ import it.prova.prenotazioni.dto.stanza.StanzaDTO;
 import it.prova.prenotazioni.model.Stanza;
 import it.prova.prenotazioni.model.Tipo;
 import it.prova.prenotazioni.service.StanzaService;
-import it.prova.prenotazioni.web.api.exception.StanzaNotFoundException;
 import jakarta.validation.Valid;
 
 @RestController
@@ -45,10 +44,6 @@ public class StanzaController {
 	@GetMapping("/{id}")
 	public StanzaDTO findById(@PathVariable(value = "id", required = true) Long id) {
 		Stanza stanza = stanzaService.findByIdEager(id);
-
-		if (stanza == null) {
-			throw new StanzaNotFoundException("Stanza not found with id:" + id);
-		}
 		return StanzaDTO.buildStanzaDTOFromModel(stanza, true);
 	}
 

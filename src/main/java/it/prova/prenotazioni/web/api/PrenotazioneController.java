@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import it.prova.prenotazioni.dto.prenotazione.PrenotazioneDTO;
 import it.prova.prenotazioni.dto.prenotazione.PrenotazioneRequestDTO;
 import it.prova.prenotazioni.dto.stanza.StanzaDTO;
 import it.prova.prenotazioni.model.Prenotazione;
+import it.prova.prenotazioni.model.Stanza;
 import it.prova.prenotazioni.model.Tipo;
 import it.prova.prenotazioni.service.PrenotazioneService;
 import it.prova.prenotazioni.service.StanzaService;
@@ -27,29 +29,35 @@ public class PrenotazioneController {
 
 	@Autowired
 	private PrenotazioneService prenotazioneService;
-	
+
 	@Autowired
 	private StanzaService stanzaService;
-	
+
 	@GetMapping("/GetStanza")
-	public List<StanzaDTO> listAllStanzeDisponibili(@RequestParam String tipo, @RequestParam LocalDate dataIn, @RequestParam LocalDate dataOut) {
+	public List<StanzaDTO> listAllStanzeDisponibili(@RequestParam String tipo, @RequestParam LocalDate dataIn,
+			@RequestParam LocalDate dataOut) {
 		Tipo myTipo = Tipo.valueOf(tipo);
-	    return StanzaDTO.buildStanzaDTOListFromModelList(stanzaService.stanzeDisponibili(myTipo, dataIn, dataOut), true);
+		return StanzaDTO.buildStanzaDTOListFromModelList(stanzaService.stanzeDisponibili(myTipo, dataIn, dataOut),
+				true);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public PrenotazioneDTO prenotaStanza(@RequestBody PrenotazioneRequestDTO requestDTO) {
-		Prenotazione nuovaPrenotazione = prenotazioneService.prenotaStanza(requestDTO.getNumStanza(), requestDTO.getDataIn(),
-				requestDTO.getDataOut());
+		Prenotazione nuovaPrenotazione = prenotazioneService.prenotaStanza(requestDTO.getNumStanza(),
+				requestDTO.getDataIn(), requestDTO.getDataOut());
 		return PrenotazioneDTO.buildPrenotazioneDTOFromModel(nuovaPrenotazione, true);
 	}
-	
+
 	@GetMapping
 	public List<PrenotazioneDTO> listAll() {
 		return PrenotazioneDTO.buildPrenotazioneDTOListFromModelList(prenotazioneService.listAllEager(), true);
 	}
-	
-	
+
+	@GetMapping("/{id}")
+	public PrenotazioneDTO findById(@PathVariable(value = "id", required = true) Long id) {
+		Prenotazione prenotazione = prenotazioneService.findByIdEager(id);
+		return PrenotazioneDTO.buildPrenotazioneDTOFromModel(prenotazione, true);
+	}
 
 }
