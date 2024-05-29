@@ -9,12 +9,8 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import it.prova.prenotazioni.dto.prenotazione.PrenotazioneDTO;
 import it.prova.prenotazioni.model.Prenotazione;
-import it.prova.prenotazioni.model.Stanza;
-import it.prova.prenotazioni.model.Tipo;
 import it.prova.prenotazioni.repository.stanza.StanzaRepository;
-import it.prova.prenotazioni.web.api.exception.ListStanzeDisponibiliNull;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -56,7 +52,7 @@ public class CustomPrenotazioneRepositoryImpl implements CustomPrenotazioneRepos
 			paramaterMap.put("annullata", example.getAnnullata());
 		}
 
-		if (example.getStanza() != null && example.getStanza().getNumero() != null) {
+		if (example.getStanza() != null && StringUtils.isNotBlank(example.getStanza().getNumero())) {
 			whereClauses.add(" s.numero = :numero");
 			paramaterMap.put("numero", example.getStanza().getNumero());
 		}

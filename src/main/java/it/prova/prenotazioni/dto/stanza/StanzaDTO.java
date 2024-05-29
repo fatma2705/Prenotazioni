@@ -56,6 +56,10 @@ public class StanzaDTO {
 	public void setPrezzoNotte(Float prezzoNotte) {
 		this.prezzoNotte = prezzoNotte;
 	}
+	
+	
+
+	
 
 	public List<PrenotazioneDTO> getPrenotazioni() {
 		return prenotazioni;
@@ -66,7 +70,7 @@ public class StanzaDTO {
 	}
 
 	public Stanza buildStanzaModel(boolean includePrenotazioni) {
-		Stanza result = new Stanza(this.id, this.numero, this.tipo, this.prezzoNotte);
+		Stanza result = new Stanza(this.id, this.getNumero(), this.tipo, this.prezzoNotte);
 		if (includePrenotazioni) {
 			result.setPrenotazioni(PrenotazioneDTO.buildPrenotazioneModelListFromDTOList(prenotazioni, false));
 		}

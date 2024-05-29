@@ -28,9 +28,9 @@ public class CustomStanzaRepositoryImpl implements CustomStanzaRepository {
 		StringBuilder queryBuilder = new StringBuilder(
 				"select s from Stanza s left join fetch s.prenotazioni p where s.id = s.id");
 
-		if (example.getNumero() != null) {
-			whereClauses.add(" s.numero = :numero");
-			paramaterMap.put("numero", example.getNumero());
+		if (StringUtils.isNotBlank(example.getNumero())) {
+			whereClauses.add(" s.numero =  :numero");
+			paramaterMap.put("numero",example.getNumero() );
 		}
 
 		if (example.getTipo() != null) {
@@ -39,7 +39,7 @@ public class CustomStanzaRepositoryImpl implements CustomStanzaRepository {
 		}
 
 		if (example.getPrezzoNotte() != null) {
-			whereClauses.add(" s.prezzo_notte = :prezzoNotte");
+			whereClauses.add(" s.prezzoNotte = :prezzoNotte");
 			paramaterMap.put("prezzoNotte", example.getPrezzoNotte());
 		}
 

@@ -1,9 +1,8 @@
 package it.prova.prenotazioni.model;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,7 +24,7 @@ public class Stanza {
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "numero")
-	private String numero = generateUniqueCode();
+	private String numero;
 	@Column(name = "tipo")
 	@Enumerated(EnumType.STRING)
 	private Tipo tipo;
@@ -38,30 +37,25 @@ public class Stanza {
 
 	}
 
-	public Stanza(Long id,String numero, Tipo tipo, Float prezzoNotte) {
+	public Stanza(Long id, String numero, Tipo tipo, Float prezzoNotte, boolean generaNumero) {
 		this.id = id;
-		this.numero = generateUniqueCode();
+		if (generaNumero)
+			this.numero = generateUniqueCode();
+		else
+			this.numero = numero;
 		this.tipo = tipo;
 		this.prezzoNotte = prezzoNotte;
 	}
 
-	public Stanza(Long id,String numero, Tipo tipo, Float prezzoNotte, List<Prenotazione> prenotazioni) {
-		this.id = id;
-		this.numero = generateUniqueCode();
-		this.tipo = tipo;
-		this.prezzoNotte = prezzoNotte;
+	public Stanza(Long id, String numero, Tipo tipo, Float prezzoNotte, List<Prenotazione> prenotazioni,
+			boolean generaNumero) {
+		this(id, numero, tipo, prezzoNotte, generaNumero);
 		this.prenotazioni = prenotazioni;
 	}
-	
-	public Stanza(Long id, Tipo tipo, Float prezzoNotte, List<Prenotazione> prenotazioni) {
+
+	public Stanza(Long id, String numero, Tipo tipo, Float prezzoNotte) {
 		this.id = id;
-		this.tipo = tipo;
-		this.prezzoNotte = prezzoNotte;
-		this.prenotazioni = prenotazioni;
-	}
-	
-	public Stanza(Long id,Tipo tipo, Float prezzoNotte) {
-		this.id = id;
+		this.numero = numero;
 		this.tipo = tipo;
 		this.prezzoNotte = prezzoNotte;
 	}
@@ -107,18 +101,16 @@ public class Stanza {
 	}
 
 	public static String generateUniqueCode() {
-		final int BASE = 36;
-		int counter = 0;
-		Set<String> generatedCodes = new HashSet<>();
+		// Genera un UUID
+		UUID uuid = UUID.randomUUID();
 
-		String code;
-		do {
-			code = Integer.toString(counter, BASE).toUpperCase();
-			counter++;
-		} while (generatedCodes.contains(code) || code.length() != 2);
+		// Prende i primi due caratteri dell'UUID
+		return uuid.toString().substring(0, 2);
+	}
 
-		generatedCodes.add(code);
-		return code;
+	public static void main(String[] args) {
+		String roomCode = generateUniqueCode();
+		System.out.println("Room Code: " + roomCode);
 	}
 
 }
