@@ -22,7 +22,7 @@ public class Prenotazione {
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "codice")
-	private String codice = generateUniqueCode();
+	private String codice;
 	@Column(name = "data_in")
 	private LocalDate dataIn;
 	@Column(name = "data_out")
@@ -37,17 +37,15 @@ public class Prenotazione {
 
 	}
 
-	public Prenotazione(Long id, LocalDate dataIn, LocalDate dataOut, Stanza stanza) {
-		this.id = id;
-		this.dataIn = dataIn;
-		this.dataOut = dataOut;
-		this.stanza = stanza;
-	}
-
 	public Prenotazione(Long id, LocalDate dataIn, LocalDate dataOut) {
 		this.id = id;
 		this.dataIn = dataIn;
 		this.dataOut = dataOut;
+	}
+
+	public Prenotazione(Long id, LocalDate dataIn, LocalDate dataOut, Stanza stanza) {
+		this(id, dataIn, dataOut);
+		this.stanza = stanza;
 	}
 
 	public Prenotazione(LocalDate dataIn, LocalDate dataOut, Stanza stanza) {

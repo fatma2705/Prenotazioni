@@ -38,12 +38,12 @@ public class CustomPrenotazioneRepositoryImpl implements CustomPrenotazioneRepos
 		}
 
 		if (example.getDataIn() != null) {
-			whereClauses.add(" p.dataIn > :dataIn");
+			whereClauses.add(" p.dataIn = :dataIn");
 			paramaterMap.put("dataIn", example.getDataIn());
 		}
 
 		if (example.getDataOut() != null) {
-			whereClauses.add(" p.dataOut > :dataOut");
+			whereClauses.add(" p.dataOut = :dataOut");
 			paramaterMap.put("dataOut", example.getDataOut());
 		}
 
