@@ -48,8 +48,7 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
 
 	@Override
 	public List<Prenotazione> findByExample(Prenotazione example) {
-		// TODO Auto-generated method stub
-		return null;
+		return prenotazioneRepository.findByExample(example);
 	}
 
 	@Override
@@ -66,7 +65,6 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
 
 	@Override
 	public void rimuovi(Long id) {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -60,8 +60,8 @@ public class StanzaController {
 				false);
 	}
 
-	@PutMapping("/{id}")
-	public StanzaDTO aggiorna(@Valid @RequestBody StanzaDTO input, @PathVariable(required = true) Long id) {
+	@PutMapping
+	public StanzaDTO aggiorna(@Valid @RequestBody StanzaDTO input) {
 
 		Stanza aggiornato = stanzaService.update(input.buildStanzaModel(false));
 		return StanzaDTO.buildStanzaDTOFromModel(aggiornato, false);

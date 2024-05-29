@@ -18,7 +18,6 @@ import it.prova.prenotazioni.dto.prenotazione.PrenotazioneDTO;
 import it.prova.prenotazioni.dto.prenotazione.PrenotazioneRequestDTO;
 import it.prova.prenotazioni.dto.stanza.StanzaDTO;
 import it.prova.prenotazioni.model.Prenotazione;
-import it.prova.prenotazioni.model.Stanza;
 import it.prova.prenotazioni.model.Tipo;
 import it.prova.prenotazioni.service.PrenotazioneService;
 import it.prova.prenotazioni.service.StanzaService;
@@ -58,6 +57,12 @@ public class PrenotazioneController {
 	public PrenotazioneDTO findById(@PathVariable(value = "id", required = true) Long id) {
 		Prenotazione prenotazione = prenotazioneService.findByIdEager(id);
 		return PrenotazioneDTO.buildPrenotazioneDTOFromModel(prenotazione, true);
+	}
+
+	@PostMapping("/search")
+	public List<PrenotazioneDTO> search(@RequestBody PrenotazioneDTO example) {
+		return PrenotazioneDTO.buildPrenotazioneDTOListFromModelList(
+				prenotazioneService.findByExample(example.buildPrenotazioneModel(false)), false);
 	}
 
 }
