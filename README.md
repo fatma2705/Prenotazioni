@@ -1,5 +1,3 @@
-Certamente! Ecco il README completo in un unico blocco:
-
 ```markdown
 # Room and Operation Management REST API
 
