@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.prenotazioni.model.Prenotazione;
 import it.prova.prenotazioni.repository.prenotazione.PrenotazioneRepository;
+import it.prova.prenotazioni.web.api.exception.EmptyDatabase;
 
 @Service
 @Transactional
@@ -19,14 +20,15 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
 
 	@Override
 	public List<Prenotazione> listAll() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Prenotazione> listAllEager() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Prenotazione> prenotazione = prenotazioneRepository.listAllEager();
+		if (prenotazione == null || prenotazione.isEmpty())
+			throw new EmptyDatabase("Database vuoto ..!");
+		return prenotazione;
 	}
 
 	@Override

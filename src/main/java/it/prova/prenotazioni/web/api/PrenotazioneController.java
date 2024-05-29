@@ -45,6 +45,11 @@ public class PrenotazioneController {
 		return PrenotazioneDTO.buildPrenotazioneDTOFromModel(nuovaPrenotazione, true);
 	}
 	
+	@GetMapping
+	public List<PrenotazioneDTO> listAll() {
+		return PrenotazioneDTO.buildPrenotazioneDTOListFromModelList(prenotazioneService.listAllEager(), true);
+	}
+	
 	
 
 }

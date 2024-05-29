@@ -31,7 +31,7 @@ public class StanzaServiceImpl implements StanzaService {
 	@Override
 	public List<Stanza> listAllEager() {
 		List<Stanza> stanze = stanzaRepository.listAllEager();
-		if (stanze == null) {
+		if (stanze == null || stanze.isEmpty()) {
 			throw new EmptyDatabase("Database vuoto ..!");
 		}
 		return stanze;
