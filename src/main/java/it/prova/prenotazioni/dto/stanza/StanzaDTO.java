@@ -16,8 +16,8 @@ public class StanzaDTO {
 
 	private Long id;
 
-	@NotNull(message = "{numero.notnull}")
-	private Integer numero;
+	
+	private String numero;
 	@NotNull(message = "{tipo.notnull}")
 	private Tipo tipo;
 	@NotNull(message = "{prezzoNotte.notnull")
@@ -33,11 +33,11 @@ public class StanzaDTO {
 		this.id = id;
 	}
 
-	public Integer getNumero() {
+	public String getNumero() {
 		return numero;
 	}
 
-	public void setNumero(Integer numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 

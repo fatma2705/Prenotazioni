@@ -14,7 +14,7 @@ public class StanzaDTOBuilder {
 		return this;
 	}
 
-	public StanzaDTOBuilder numero(Integer numero) {
+	public StanzaDTOBuilder numero(String numero) {
 		this.dto.setNumero(numero);
 		return this;
 	}

@@ -1,18 +1,25 @@
 package it.prova.prenotazioni.web.api;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.prova.prenotazioni.dto.prenotazione.PrenotazioneDTO;
 import it.prova.prenotazioni.dto.prenotazione.PrenotazioneRequestDTO;
+import it.prova.prenotazioni.dto.stanza.StanzaDTO;
 import it.prova.prenotazioni.model.Prenotazione;
 import it.prova.prenotazioni.model.Tipo;
 import it.prova.prenotazioni.service.PrenotazioneService;
+import it.prova.prenotazioni.service.StanzaService;
 
 @RestController
 @RequestMapping("/api/prenotazione")
@@ -20,14 +27,24 @@ public class PrenotazioneController {
 
 	@Autowired
 	private PrenotazioneService prenotazioneService;
+	
+	@Autowired
+	private StanzaService stanzaService;
+	
+	@GetMapping("/GetStanza")
+	public List<StanzaDTO> listAllStanzeDisponibili(@RequestParam String tipo, @RequestParam LocalDate dataIn, @RequestParam LocalDate dataOut) {
+		Tipo myTipo = Tipo.valueOf(tipo);
+	    return StanzaDTO.buildStanzaDTOListFromModelList(stanzaService.stanzeDisponibili(myTipo, dataIn, dataOut), true);
+	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public PrenotazioneDTO prenotaStanza(@RequestBody PrenotazioneRequestDTO requestDTO) {
-		Tipo newTipo = Tipo.valueOf(requestDTO.getTipo());
-		Prenotazione nuovaPrenotazione = prenotazioneService.prenotaStanza(newTipo, requestDTO.getDataIn(),
+		Prenotazione nuovaPrenotazione = prenotazioneService.prenotaStanza(requestDTO.getNumStanza(), requestDTO.getDataIn(),
 				requestDTO.getDataOut());
 		return PrenotazioneDTO.buildPrenotazioneDTOFromModel(nuovaPrenotazione, true);
 	}
+	
+	
 
 }

@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.prenotazioni.model.Prenotazione;
-import it.prova.prenotazioni.model.Tipo;
 import it.prova.prenotazioni.repository.prenotazione.PrenotazioneRepository;
-import it.prova.prenotazioni.web.api.exception.IdNotNullForInsertionException;
 
 @Service
 @Transactional
@@ -50,8 +48,8 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
 	}
 
 	@Override
-	public Prenotazione prenotaStanza(Tipo tipo , LocalDate dataIn , LocalDate dataOut) {
-		Prenotazione prenotazione = prenotazioneRepository.prenotaStanza(tipo, dataIn, dataOut);
+	public Prenotazione prenotaStanza(String numStanza , LocalDate dataIn , LocalDate dataOut) {
+		Prenotazione prenotazione = prenotazioneRepository.prenotaStanza(numStanza, dataIn, dataOut);
 		return prenotazioneRepository.save(prenotazione);
 	}
 

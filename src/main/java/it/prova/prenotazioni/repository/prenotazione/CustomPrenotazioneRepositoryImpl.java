@@ -74,12 +74,8 @@ public class CustomPrenotazioneRepositoryImpl implements CustomPrenotazioneRepos
 	}
 
 	@Override
-	public Prenotazione prenotaStanza(Tipo tipo, LocalDate dataIn, LocalDate dataOut) {
-		List<Stanza> stanzeDisponibili = stanzaRepository.stanzeDisponibili(tipo, dataIn, dataOut);
-		if (stanzeDisponibili == null || stanzeDisponibili.isEmpty()) {
-			throw new ListStanzeDisponibiliNull("No available stanze found");
-		}
-		Prenotazione prenotazione = new Prenotazione(dataIn,dataOut,stanzeDisponibili.get(0));
+	public Prenotazione prenotaStanza(String numStanza, LocalDate dataIn, LocalDate dataOut) {
+		Prenotazione prenotazione = new Prenotazione(dataIn,dataOut,stanzaRepository.findByNumeroStanza(numStanza));
 		return prenotazione;
 	}
 

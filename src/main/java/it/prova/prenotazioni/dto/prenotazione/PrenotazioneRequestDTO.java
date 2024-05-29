@@ -3,17 +3,18 @@ package it.prova.prenotazioni.dto.prenotazione;
 import java.time.LocalDate;
 
 public class PrenotazioneRequestDTO {
-	private String tipo;
+	private String numStanza;
 	private LocalDate dataIn;
 	private LocalDate dataOut;
 
 	// Getters e Setters
-	public String getTipo() {
-		return tipo;
+
+	public String getNumStanza() {
+		return numStanza;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setNumStanza(String numStanza) {
+		this.numStanza = numStanza;
 	}
 
 	public LocalDate getDataIn() {

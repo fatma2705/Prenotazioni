@@ -1,7 +1,9 @@
 package it.prova.prenotazioni.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +25,7 @@ public class Stanza {
 	@Column(name = "id")
 	private Long id;
 	@Column(name = "numero")
-	private Integer numero;
+	private String numero = generateUniqueCode();
 	@Column(name = "tipo")
 	@Enumerated(EnumType.STRING)
 	private Tipo tipo;
@@ -36,19 +38,32 @@ public class Stanza {
 
 	}
 
-	public Stanza(Long id, Integer numero, Tipo tipo, Float prezzoNotte) {
+	public Stanza(Long id,String numero, Tipo tipo, Float prezzoNotte) {
 		this.id = id;
-		this.numero = numero;
+		this.numero = generateUniqueCode();
 		this.tipo = tipo;
 		this.prezzoNotte = prezzoNotte;
 	}
 
-	public Stanza(Long id, Integer numero, Tipo tipo, Float prezzoNotte, List<Prenotazione> prenotazioni) {
+	public Stanza(Long id,String numero, Tipo tipo, Float prezzoNotte, List<Prenotazione> prenotazioni) {
 		this.id = id;
-		this.numero = numero;
+		this.numero = generateUniqueCode();
 		this.tipo = tipo;
 		this.prezzoNotte = prezzoNotte;
 		this.prenotazioni = prenotazioni;
+	}
+	
+	public Stanza(Long id, Tipo tipo, Float prezzoNotte, List<Prenotazione> prenotazioni) {
+		this.id = id;
+		this.tipo = tipo;
+		this.prezzoNotte = prezzoNotte;
+		this.prenotazioni = prenotazioni;
+	}
+	
+	public Stanza(Long id,Tipo tipo, Float prezzoNotte) {
+		this.id = id;
+		this.tipo = tipo;
+		this.prezzoNotte = prezzoNotte;
 	}
 
 	public Long getId() {
@@ -59,11 +74,11 @@ public class Stanza {
 		this.id = id;
 	}
 
-	public Integer getNumero() {
+	public String getNumero() {
 		return numero;
 	}
 
-	public void setNumero(Integer numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 
@@ -89,6 +104,21 @@ public class Stanza {
 
 	public void setPrenotazioni(List<Prenotazione> prenotazioni) {
 		this.prenotazioni = prenotazioni;
+	}
+
+	public static String generateUniqueCode() {
+		final int BASE = 36;
+		int counter = 0;
+		Set<String> generatedCodes = new HashSet<>();
+
+		String code;
+		do {
+			code = Integer.toString(counter, BASE).toUpperCase();
+			counter++;
+		} while (generatedCodes.contains(code) || code.length() != 2);
+
+		generatedCodes.add(code);
+		return code;
 	}
 
 }
