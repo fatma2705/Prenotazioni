@@ -16,7 +16,6 @@ public class StanzaDTO {
 
 	private Long id;
 
-	
 	private String numero;
 	@NotNull(message = "{tipo.notnull}")
 	private Tipo tipo;
@@ -56,10 +55,6 @@ public class StanzaDTO {
 	public void setPrezzoNotte(Float prezzoNotte) {
 		this.prezzoNotte = prezzoNotte;
 	}
-	
-	
-
-	
 
 	public List<PrenotazioneDTO> getPrenotazioni() {
 		return prenotazioni;

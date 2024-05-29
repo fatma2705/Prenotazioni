@@ -19,7 +19,7 @@ public class CustomPrenotazioneRepositoryImpl implements CustomPrenotazioneRepos
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	@Autowired
 	private StanzaRepository stanzaRepository;
 
@@ -71,7 +71,7 @@ public class CustomPrenotazioneRepositoryImpl implements CustomPrenotazioneRepos
 
 	@Override
 	public Prenotazione prenotaStanza(String numStanza, LocalDate dataIn, LocalDate dataOut) {
-		Prenotazione prenotazione = new Prenotazione(dataIn,dataOut,stanzaRepository.findByNumeroStanza(numStanza));
+		Prenotazione prenotazione = new Prenotazione(dataIn, dataOut, stanzaRepository.findByNumeroStanza(numStanza));
 		return prenotazione;
 	}
 

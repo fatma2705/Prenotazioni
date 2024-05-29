@@ -17,10 +17,14 @@ public interface PrenotazioneService {
 
 	public List<Prenotazione> findByExample(Prenotazione example);
 
-	public Prenotazione prenotaStanza(String numStanza, LocalDate dataIn , LocalDate dataOut);
+	public Prenotazione prenotaStanza(String numStanza, LocalDate dataIn, LocalDate dataOut);
 
 	public Prenotazione update(Prenotazione input);
 
 	public void rimuovi(Long id);
+
+	public void annullaPrenotazione(Long id);
+
+	public List<Prenotazione> listAllNonAnnullate();
 
 }

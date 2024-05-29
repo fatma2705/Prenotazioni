@@ -23,7 +23,7 @@ public interface StanzaService {
 	public Stanza update(Stanza input);
 
 	public void rimuovi(Long id);
-	
+
 	List<Stanza> stanzeDisponibili(Tipo tipo, LocalDate dataIn, LocalDate dataOut);
 
 }

@@ -9,7 +9,7 @@ import it.prova.prenotazioni.model.Tipo;
 public interface CustomStanzaRepository {
 
 	public List<Stanza> findByExample(Stanza Example);
-	
+
 	List<Stanza> stanzeDisponibili(Tipo tipo, LocalDate dataIn, LocalDate dataOut);
 
 }

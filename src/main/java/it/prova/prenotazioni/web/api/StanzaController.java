@@ -35,11 +35,12 @@ public class StanzaController {
 	}
 
 	@GetMapping("/disponibili")
-	public List<StanzaDTO> listAllStanzeDisponibili(@RequestParam String tipo, @RequestParam LocalDate dataIn, @RequestParam LocalDate dataOut) {
+	public List<StanzaDTO> listAllStanzeDisponibili(@RequestParam String tipo, @RequestParam LocalDate dataIn,
+			@RequestParam LocalDate dataOut) {
 		Tipo myTipo = Tipo.valueOf(tipo);
-	    return StanzaDTO.buildStanzaDTOListFromModelList(stanzaService.stanzeDisponibili(myTipo, dataIn, dataOut), true);
+		return StanzaDTO.buildStanzaDTOListFromModelList(stanzaService.stanzeDisponibili(myTipo, dataIn, dataOut),
+				true);
 	}
-
 
 	@GetMapping("/{id}")
 	public StanzaDTO findById(@PathVariable(value = "id", required = true) Long id) {

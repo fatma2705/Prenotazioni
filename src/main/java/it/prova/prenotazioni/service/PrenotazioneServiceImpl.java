@@ -62,7 +62,7 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
 	@Override
 	public Prenotazione update(Prenotazione input) {
 		Prenotazione prenotazione = prenotazioneRepository.findByIdEager(input.getId());
-		
+
 		if (prenotazione == null) {
 			throw new PrenotazioneNotFoundException("Prenotazione not found with id:" + input.getId());
 		}
@@ -78,4 +78,22 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
 		prenotazioneRepository.deleteById(id);
 	}
 
+	@Override
+	public void annullaPrenotazione(Long id) {
+		Prenotazione prenotazione = prenotazioneRepository.findByIdEager(id);
+		prenotazione.setAnnullata(true);
+		if (prenotazione.getStanza() != null) {
+			prenotazione.getStanza().getPrenotazioni().remove(prenotazione);
+			prenotazione.setStanza(null);
+		}
+
+	}
+
+	@Override
+	public List<Prenotazione> listAllNonAnnullate() {
+		List<Prenotazione> prenotazione = prenotazioneRepository.listAllNonAnnullate();
+		if (prenotazione == null || prenotazione.isEmpty())
+			throw new EmptyDatabase("Database vuoto ..!");
+		return prenotazione;
+	}
 }

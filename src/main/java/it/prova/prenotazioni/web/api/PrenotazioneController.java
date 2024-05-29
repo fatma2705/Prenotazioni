@@ -82,4 +82,15 @@ public class PrenotazioneController {
 
 	}
 
+	@PutMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public void annullaPrenotazione(@PathVariable(required = true) Long id) {
+		prenotazioneService.annullaPrenotazione(id);
+	}
+
+	@GetMapping("/nonAnnullate")
+	public List<PrenotazioneDTO> listAllNonAnnullate() {
+		return PrenotazioneDTO.buildPrenotazioneDTOListFromModelList(prenotazioneService.listAllNonAnnullate(), true);
+	}
+
 }

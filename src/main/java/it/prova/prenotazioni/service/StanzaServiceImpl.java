@@ -86,8 +86,8 @@ public class StanzaServiceImpl implements StanzaService {
 	}
 
 	@Override
-	public List<Stanza> stanzeDisponibili(Tipo tipo , LocalDate dataIn, LocalDate dataOut) {
-		List<Stanza> stanze = stanzaRepository.stanzeDisponibili( tipo ,  dataIn, dataOut);
+	public List<Stanza> stanzeDisponibili(Tipo tipo, LocalDate dataIn, LocalDate dataOut) {
+		List<Stanza> stanze = stanzaRepository.stanzeDisponibili(tipo, dataIn, dataOut);
 		if (stanze == null) {
 			throw new ListStanzeDisponibiliNull("No available stanze found");
 		}

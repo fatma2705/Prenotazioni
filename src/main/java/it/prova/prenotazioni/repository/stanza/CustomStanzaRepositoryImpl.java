@@ -30,7 +30,7 @@ public class CustomStanzaRepositoryImpl implements CustomStanzaRepository {
 
 		if (StringUtils.isNotBlank(example.getNumero())) {
 			whereClauses.add(" s.numero =  :numero");
-			paramaterMap.put("numero",example.getNumero() );
+			paramaterMap.put("numero", example.getNumero());
 		}
 
 		if (example.getTipo() != null) {
@@ -55,15 +55,12 @@ public class CustomStanzaRepositoryImpl implements CustomStanzaRepository {
 	}
 
 	@Override
-	public  List<Stanza> stanzeDisponibili(Tipo tipo, LocalDate dataIn, LocalDate dataOut) {
-		Query query = entityManager.createNativeQuery("SELECT s.* "
-				+ "FROM stanza s "
-				+ "LEFT JOIN prenotazione p ON s.id = p.stanza_id "
-				+ "WHERE s.tipo = :tipo "
-				+ "GROUP BY s.id "
+	public List<Stanza> stanzeDisponibili(Tipo tipo, LocalDate dataIn, LocalDate dataOut) {
+		Query query = entityManager.createNativeQuery("SELECT s.* " + "FROM stanza s "
+				+ "LEFT JOIN prenotazione p ON s.id = p.stanza_id " + "WHERE s.tipo = :tipo " + "GROUP BY s.id "
 				+ "HAVING COUNT(p.id) = 0 "
-				+ "   OR COUNT(CASE WHEN (p.data_in < :dataIn AND p.data_out < :dataIn) OR (p.data_in > :dataOut AND p.data_out > :dataOut) THEN 1 END) = COUNT(p.id);"
-				, Stanza.class);
+				+ "   OR COUNT(CASE WHEN (p.data_in < :dataIn AND p.data_out < :dataIn) OR (p.data_in > :dataOut AND p.data_out > :dataOut) THEN 1 END) = COUNT(p.id);",
+				Stanza.class);
 		query.setParameter("dataIn", dataIn);
 		query.setParameter("dataOut", dataOut);
 		query.setParameter("tipo", tipo.toString());
