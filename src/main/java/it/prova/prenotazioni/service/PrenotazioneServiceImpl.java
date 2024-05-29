@@ -11,6 +11,7 @@ import it.prova.prenotazioni.model.Prenotazione;
 import it.prova.prenotazioni.repository.prenotazione.PrenotazioneRepository;
 import it.prova.prenotazioni.web.api.exception.EmptyDatabase;
 import it.prova.prenotazioni.web.api.exception.PrenotazioneNotFoundException;
+import it.prova.prenotazioni.web.api.exception.StanzaNotFoundException;
 
 @Service
 @Transactional
@@ -65,7 +66,11 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
 
 	@Override
 	public void rimuovi(Long id) {
-
+		Prenotazione prenotazione = prenotazioneRepository.findByIdEager(id);
+		if (prenotazione == null ) {
+			throw new PrenotazioneNotFoundException("Prenotazione not found with id:" + id);
+		}
+		prenotazioneRepository.deleteById(id);
 	}
 
 }
