@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,9 +20,11 @@ import it.prova.prenotazioni.dto.prenotazione.PrenotazioneDTO;
 import it.prova.prenotazioni.dto.prenotazione.PrenotazioneRequestDTO;
 import it.prova.prenotazioni.dto.stanza.StanzaDTO;
 import it.prova.prenotazioni.model.Prenotazione;
+import it.prova.prenotazioni.model.Stanza;
 import it.prova.prenotazioni.model.Tipo;
 import it.prova.prenotazioni.service.PrenotazioneService;
 import it.prova.prenotazioni.service.StanzaService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/prenotazione")
@@ -65,11 +68,18 @@ public class PrenotazioneController {
 		return PrenotazioneDTO.buildPrenotazioneDTOListFromModelList(
 				prenotazioneService.findByExample(example.buildPrenotazioneModel(false)), false);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable(required = true) Long id) {
 		prenotazioneService.rimuovi(id);
+	}
+
+	@PutMapping
+	public PrenotazioneDTO aggiorna(@Valid @RequestBody PrenotazioneDTO input) {
+		Prenotazione aggiornato = prenotazioneService.update(input.buildPrenotazioneModel(true));
+		return PrenotazioneDTO.buildPrenotazioneDTOFromModel(aggiornato, true);
+
 	}
 
 }

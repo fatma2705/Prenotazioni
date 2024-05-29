@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.prenotazioni.model.Prenotazione;
+import it.prova.prenotazioni.model.Stanza;
 import it.prova.prenotazioni.repository.prenotazione.PrenotazioneRepository;
 import it.prova.prenotazioni.web.api.exception.EmptyDatabase;
 import it.prova.prenotazioni.web.api.exception.PrenotazioneNotFoundException;
@@ -53,21 +54,25 @@ public class PrenotazioneServiceImpl implements PrenotazioneService {
 	}
 
 	@Override
-	public Prenotazione prenotaStanza(String numStanza , LocalDate dataIn , LocalDate dataOut) {
+	public Prenotazione prenotaStanza(String numStanza, LocalDate dataIn, LocalDate dataOut) {
 		Prenotazione prenotazione = prenotazioneRepository.prenotaStanza(numStanza, dataIn, dataOut);
 		return prenotazioneRepository.save(prenotazione);
 	}
 
 	@Override
 	public Prenotazione update(Prenotazione input) {
-		// TODO Auto-generated method stub
-		return null;
+		Prenotazione prenotazione = prenotazioneRepository.findByIdEager(input.getId());
+		
+		if (prenotazione == null) {
+			throw new PrenotazioneNotFoundException("Prenotazione not found with id:" + input.getId());
+		}
+		return prenotazioneRepository.save(input);
 	}
 
 	@Override
 	public void rimuovi(Long id) {
 		Prenotazione prenotazione = prenotazioneRepository.findByIdEager(id);
-		if (prenotazione == null ) {
+		if (prenotazione == null) {
 			throw new PrenotazioneNotFoundException("Prenotazione not found with id:" + id);
 		}
 		prenotazioneRepository.deleteById(id);
